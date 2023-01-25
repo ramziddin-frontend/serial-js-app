@@ -16,29 +16,6 @@ a {
   margin: 0 auto;
 }
 
-.fade {
-  animation-name: fade;
-  animation-duration: 1s;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
-}
-
 .title {
   font-size: 36px;
   font-weight: 400;
@@ -47,7 +24,7 @@ a {
 .header {
   width: 100%;
   height: 100vh;
-  background: url("../img/header.jpg") center no-repeat;
+  background: url('../img/header.jpg') center no-repeat;
   background-size: cover;
   position: relative;
 }
@@ -70,7 +47,7 @@ a {
 
 .button {
   display: inline-block;
-  font-family: "Montserrat", Helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -117,7 +94,7 @@ a {
 
 /* Entity Icon   */
 .arrow:after {
-  content: "\2794";
+  content: '\2794';
 }
 
 /* Set Arrow Icon Bounce Animation   */
@@ -142,7 +119,7 @@ a {
 
 /* Entity Icon   */
 .phone:after {
-  content: "\260E";
+  content: '\260E';
 }
 
 /* Set Phone Icon Wiggle Animation   */
@@ -374,7 +351,7 @@ a {
 .menu__item {
   width: 320px;
   min-height: 450px;
-  background: url("../img/header.jpg");
+  background: url('../img/header.jpg');
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
   font-size: 16px;
   font-weight: 300;
@@ -611,7 +588,7 @@ a {
 }
 
 .loader {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: fixed;
@@ -622,7 +599,7 @@ a {
   background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
   z-index: 99999;
   perspective: 500px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 section {
@@ -647,7 +624,7 @@ section {
 }
 
 .paper_man .part::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   height: 100%;
@@ -955,5 +932,28 @@ section {
 
   100% {
     transform: rotateX(20deg) translateY(-30px);
+  }
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

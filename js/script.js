@@ -1,43 +1,45 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const tabParent = document.querySelector('.tabheader__items'),
+  const tabsParent = document.querySelector('.tabheader__items'),
     tabs = document.querySelectorAll('.tabheader__item'),
     tabsContent = document.querySelectorAll('.tabcontent'),
-    loader = document.querySelector('.loader');
+    loader = document.querySelector('.loader')
 
+  // Loader
   setTimeout(() => {
-    loader.style.opacity = "0";
+    loader.style.opacity = '0'
     setTimeout(() => {
-      loader.style.display = 'none';
-    }, 500);
-  }, 1000);
+      loader.style.display = 'none'
+    }, 500)
+  }, 2000)
 
-  function hidetabContent() {
+  // Tabs
+  function hideTabContent() {
     tabsContent.forEach((item) => {
       item.classList.add('hide')
       item.classList.remove('show', 'fade')
-    });
+    })
 
     tabs.forEach((item) => {
       item.classList.remove('tabheader__item_active')
     })
   }
 
-  function showtabContent(i = 0) {
+  function showTabContent(i = 0) {
     tabsContent[i].classList.add('show', 'fade')
     tabsContent[i].classList.remove('hide')
     tabs[i].classList.add('tabheader__item_active')
   }
 
-  hidetabContent();
-  showtabContent();
+  hideTabContent()
+  showTabContent()
 
-  tabParent.addEventListener('click', (event) => {
-    const target = event.target;
+  tabsParent.addEventListener('click', (event) => {
+    const target = event.target
     if (target && target.classList.contains('tabheader__item')) {
       tabs.forEach((item, idx) => {
         if (target == item) {
-          hidetabContent();
-          showtabContent(idx);
+          hideTabContent()
+          showTabContent(idx)
         }
       })
     }
@@ -45,8 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Timer
 
-  const deadline = '2023-02-01',
-    UTC = +5;
+  const deadline = '2022-08-11'
 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds
@@ -59,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
       seconds = 0
     } else {
       days = Math.floor(timer / (1000 * 60 * 60 * 24))
-      hours = Math.floor(((timer / (1000 * 60 * 60)) % 24) - UTC)
+      hours = Math.floor((timer / (1000 * 60 * 60)) % 24)
       minutes = Math.floor((timer / 1000 / 60) % 60)
       seconds = Math.floor((timer / 1000) % 60)
     }
@@ -101,24 +102,125 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setClock('.timer', deadline)
 
+  // Modal
+  const modalTrigger = document.querySelectorAll('[data-modal]'),
+    modal = document.querySelector('.modal'),
+    modalCloseBtn = document.querySelector('[data-close]')
 
+  function closeModal() {
+    modal.classList.add('hide')
+    modal.classList.remove('show')
+    document.body.style.overflow = ''
+  }
 
-  // let countdownTime = `${days} kun, ${hours} soat, ${minutes} minut, ${seconds} soniya`;
+  function openModal() {
+    modal.classList.add('show')
+    modal.classList.remove('hide')
+    document.body.style.overflow = 'hidden'
+    clearInterval(modalTimerId)
+  }
 
-  // setInterval(() => {
-  //   console.log(`Qolgan vaqt ${countdownTime}`);
-  // }, 1000);
+  modalTrigger.forEach((item) => {
+    item.addEventListener('click', openModal)
+  })
 
+  modalCloseBtn.addEventListener('click', closeModal)
 
+  modal.addEventListener('click', (e) => {
+    if (e.target == modal) {
+      closeModal()
+    }
+  })
 
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape' && modal.classList.contains('show')) {
+      closeModal()
+    }
+  })
 
-  // let start = new Date;
+  // const modalTimerId = setTimeout(openModal, 5000)
 
-  // for (let i = 0; i < 1000; i++) {
-  //   const some = i ** 3;
-  // }
+  function showModalByScroll() {
+    if (
+      window.pageYOffset + document.documentElement.clientHeight >=
+      document.documentElement.scrollHeight
+    ) {
+      openModal()
+      window.removeEventListener('scroll', showModalByScroll)
+    }
+  }
 
-  // let end = new Date;
-  // console.log(end - start);
-});
+  window.addEventListener('scroll', showModalByScroll)
 
+  // Class
+  class MenuCard {
+    constructor(src, alt, title, descr, price, parentSelector, ...classes) {
+      this.src = src
+      this.alt = alt
+      this.title = title
+      this.descr = descr
+      this.price = price
+      this.classes = classes
+      this.parent = document.querySelector(parentSelector)
+      this.transfer = 11000
+      this.chageToUZS()
+    }
+
+    chageToUZS() {
+      this.price = this.price * this.transfer
+    }
+
+    render() {
+      const element = document.createElement('div')
+
+      if (this.classes.length === 0) {
+        this.element = 'menu__item'
+        element.classList.add(this.element)
+      } else {
+        this.classes.forEach((classname) => element.classList.add(classname))
+      }
+
+      element.innerHTML = `
+        <img src=${this.src} alt=${this.alt} />
+        <h3 class="menu__item-subtitle">${this.title}</h3>
+        <div class="menu__item-descr">${this.descr}</div>
+        <div class="menu__item-divider"></div>
+        <div class="menu__item-price">
+          <div class="menu__item-cost">Price:</div>
+          <div class="menu__item-total"><span>${this.price}</span> uzs/month</div>
+        </div>
+      `
+
+      this.parent.append(element)
+    }
+  }
+
+  new MenuCard(
+    'img/tabs/1.png',
+    'usual',
+    'Plan "Usual"',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.',
+    10,
+    '.menu .container'
+  ).render()
+
+  new MenuCard(
+    'img/tabs/2.jpg',
+    'plan',
+    'Plan “Premium”',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.',
+    20,
+    '.menu .container',
+    'menu__item'
+  ).render()
+
+  new MenuCard(
+    'img/tabs/3.jpg',
+    'vip',
+    'Plan VIP',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditatebeatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.',
+    30,
+    '.menu .container',
+    'menu__item'
+  ).render()
+})
