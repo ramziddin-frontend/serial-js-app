@@ -42,5 +42,14 @@ window.addEventListener('DOMContentLoaded', () => {
       })
     }
   })
+
+  // let start = new Date;
+
+  // for (let i = 0; i < 1000; i++) {
+  //   const some = i ** 3;
+  // }
+
+  // let end = new Date;
+  // console.log(end - start);
 });
 
